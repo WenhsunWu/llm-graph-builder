@@ -44,13 +44,22 @@ def get_llm(model: str):
             },
         )
     elif "openai" in model:
+        if "o1" in model:
+            model_name, api_key = env_value.split(",")
+            llm = ChatOpenAI(
+                api_key=api_key,
+                model="gpt-4o",
+                base_url="https://openai.sohoyo.io/v1",
+                temperature=0,
+            )
         #model_name = MODEL_VERSIONS[model]
-        model_name, api_key = env_value.split(",")
-        llm = ChatOpenAI(
-            api_key=api_key,
-            model=model_name,
-            temperature=0,
-        )
+        else:
+            model_name, api_key = env_value.split(",")
+            llm = ChatOpenAI(
+                api_key=api_key,
+                model=model_name,
+                temperature=0,
+            )
 
     elif "azure" in model:
         model_name, api_endpoint, api_key, api_version = env_value.split(",")

@@ -17,7 +17,7 @@ ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 # Copy requirements file and install Python dependencies
 COPY requirements.txt /code/
 # --no-cache-dir --upgrade 
-RUN pip install -r requirements.txt 
+RUN pip install -r requirements.txt -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple 
 # Copy application code
 COPY . /code
 # Set command

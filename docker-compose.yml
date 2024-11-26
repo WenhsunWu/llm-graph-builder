@@ -5,6 +5,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      # args:
+      #   ALL_PROXY: socks5://127.0.0.1:7897
     volumes:
       - ./backend:/code
     environment:
@@ -34,8 +36,8 @@ services:
 #      - LLM_MODEL_CONFIG_bedrock_claude_3_5_sonnet=${LLM_MODEL_CONFIG_bedrock_claude_3_5_sonnet-}
 #     - LLM_MODEL_CONFIG_fireworks_qwen_72b=${LLM_MODEL_CONFIG_fireworks_qwen_72b-}
       - LLM_MODEL_CONFIG_ollama_llama3=${LLM_MODEL_CONFIG_ollama_llama3-}
-    # env_file:
-    #   - ./backend/.env
+    env_file:
+      - ./backend/example.env
     container_name: backend
     extra_hosts:
       - host.docker.internal:host-gateway
@@ -61,13 +63,13 @@ services:
         - VITE_ENV=${VITE_ENV-DEV}
         - VITE_CHAT_MODES=${VITE_CHAT_MODES-}
         - VITE_BATCH_SIZE=${VITE_BATCH_SIZE-2}
-        - VITE_LLM_MODELS=${VITE_LLM_MODELS-}
-        - VITE_LLM_MODELS_PROD=${VITE_LLM_MODELS_PROD-openai_gpt_4o,openai_gpt_4o_mini,diffbot,gemini_1.5_flash}
+        - VITE_LLM_MODELS=${VITE_LLM_MODELS-openai_gpt_4o,openai_gpt_o1_preview}
+        - VITE_LLM_MODELS_PROD=${VITE_LLM_MODELS_PROD-openai_gpt_4o,openai_gpt_o1_preview,openai_gpt_4o_mini,diffbot,gemini_1.5_flash}
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    # env_file:
-    #   - ./frontend/.env
+    env_file:
+      - ./frontend/example.env
     container_name: frontend
     ports:
       - "8080:8080"
